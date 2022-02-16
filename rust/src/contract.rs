@@ -1,15 +1,18 @@
 use near_contract_standards::non_fungible_token::metadata::TokenMetadata;
 use near_contract_standards::non_fungible_token::{NonFungibleToken, Token, TokenId};
-use near_contract_standards::{impl_non_fungible_token_core, impl_non_fungible_token_enumeration, impl_non_fungible_token_approval};
+use near_contract_standards::{
+    impl_non_fungible_token_approval, impl_non_fungible_token_core,
+    impl_non_fungible_token_enumeration,
+};
 
 use crate::*;
 
 #[derive(BorshStorageKey, BorshSerialize)]
 enum StorageKey {
-    NON_FUNGIBLE_TOKEN,
-    TOKEN_METADATA,
-    TOKEN_ENUMERATION,
-    TOKEN_APPROVAL,
+    NonFungibleToken,
+    TokenMetadata,
+    TokenEnumeration,
+    TokenApproval,
 }
 
 #[near_bindgen]
@@ -24,11 +27,11 @@ impl Contract {
     pub fn new() -> Self {
         Self {
             tokens: NonFungibleToken::new(
-                StorageKey::NON_FUNGIBLE_TOKEN,
+                StorageKey::NonFungibleToken,
                 "hatchet.testnet".parse().unwrap(),
-                Some(StorageKey::TOKEN_METADATA),
-                Some(StorageKey::TOKEN_ENUMERATION),
-                Some(StorageKey::TOKEN_APPROVAL),
+                Some(StorageKey::TokenMetadata),
+                Some(StorageKey::TokenEnumeration),
+                Some(StorageKey::TokenApproval),
             ),
         }
     }
@@ -38,8 +41,8 @@ impl Contract {
             token_id,
             env::predecessor_account_id(),
             Some(TokenMetadata {
-                title: Some("My special nft token".to_string()),          // ex. "Arch Nemesis: Mail Carrier" or "Parcel #5055"
-                description: None,    // free-form description
+                title: Some("My special nft token".to_string()), // ex. "Arch Nemesis: Mail Carrier" or "Parcel #5055"
+                description: None,                               // free-form description
                 media: None, // URL to associated media, preferably to decentralized, content-addressed storage
                 media_hash: None, // Base64-encoded sha256 hash of content referenced by the `media` field. Required if `media` is included.
                 copies: None, // number of copies of this set of metadata in existence when token was minted.

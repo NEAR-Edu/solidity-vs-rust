@@ -1,8 +1,5 @@
 use near_sdk::{
     borsh::{self, *},
-    collections::*,
-    json_types::*,
-    serde::{self, *},
     *,
 };
 
